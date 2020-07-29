@@ -1,0 +1,110 @@
+@import '../sass/variables';
+
+#main {
+  background-color: $bg-color;
+  border-radius: 18px;
+  width: 320px;
+  height: 500px;
+  margin: 0 auto;
+  position: relative;
+
+  -moz-box-shadow: 0 0 5px 5px #888;
+  -webkit-box-shadow: 0 0 5px 5px#888;
+  box-shadow: 0 0 5px 5px #888;
+}
+
+h1 {
+  font-size: 0.6em;
+  text-align: center;
+  top: 20px;
+  position: relative;
+}
+
+.playerSelect {
+  background-color: $bg-color;
+  color: #fff;
+  font-size: 1.3em;
+  border: none;
+  width: 43%;
+  height: 40px;
+  top: 40px;
+  position: relative;
+}
+
+.playerSelect:nth-of-type(1) {
+  text-align: right;
+  padding-right: 10px;
+  text-shadow: 0 0 10px $player1-color, 0 0 20px $player1-color, 0 0 30px white,
+    0 0 40px white;
+}
+
+.playerSelect:nth-of-type(2) {
+  text-align: left;
+  float: right;
+  padding-left: 10px;
+  text-shadow: 0 0 10px $player2-color, 0 0 20px $player2-color, 0 0 30px white,
+    0 0 40px white;
+}
+
+#scoreBoard {
+  width: 12%;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  top: 38px;
+}
+
+.underline {
+  background-color: lighten($board-color, 20%);
+}
+
+.player1Style {
+  text-shadow: 0 0 10px $player1-color, 0 0 20px $player1-color, 0 0 30px white,
+    0 0 40px white;
+}
+.player2Style {
+  text-shadow: 0 0 10px $player2-color, 0 0 20px $player2-color, 0 0 30px white,
+    0 0 40px white;
+}
+
+table {
+  position: relative;
+  margin: 0 auto;
+  top: 70px;
+}
+
+.boardButton {
+  background-color: $board-color;
+  height: 87px;
+  width: 87px;
+  font-size: 50px;
+  font-weight: bold;
+  transition: all 0.6s;
+  &:disabled {
+    color: #fff;
+  }
+}
+
+button:hover {
+  background-color: lighten($board-color, 20%);
+}
+
+#newGame {
+  font-size: 1.8em;
+  background-color: inherit;
+  position: absolute;
+  bottom: 15px;
+  color: white;
+  text-shadow: 0 0 10px green, 0 0 20px green, 0 0 30px white, 0 0 40px white;
+  border: 0;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  &:hover {
+    background-color: lighten($bg-color, 15%);
+  }
+}
+
+.winAnimation {
+  background-color: lighten($board-color, 25%);
+}
