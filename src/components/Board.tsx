@@ -2,63 +2,95 @@ import React from "react";
 import "./Board.scss";
 
 const Board = (props: any) => {
-    const { players, score } = props;
-    const displayScore = score.join(' : ')
+  const { players, score } = props;
+  const displayScore = score.join(" : ");
 
-    return (
-        <div id="main">
-        <h1>ARTIFICAL INTELLIGENCE</h1>
+ 
+  const board = props.game.board;
+   console.log(props.game);
 
-        <button className="playerSelect" id="player1" onClick={() => props.onPlayerClick(0)}>
-            { players[0] } - X
-        </button>
+  return (
+    <div id="main">
+      <h1>ARTIFICAL INTELLIGENCE</h1>
 
-        <div id="scoreBoard">{displayScore}</div>
-        <button className="playerSelect" id="player2" onClick={() => props.onPlayerClick(1) }>
-            O - { players[1] }
-        </button>
+      <button
+        className="playerSelect"
+        id="player1"
+        onClick={() => props.onPlayerClick(0)}
+      >
+        {players[0]} - X
+      </button>
 
-        <table>
-            <tbody onClick={props.onBoardButtonClick}>
-            <tr>
-                <td>
-                <button className="boardButton" id="btn0" data-num="0"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn1" data-num="1"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn2" data-num="2"></button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <button className="boardButton" id="btn3" data-num="3"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn4" data-num="4"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn5" data-num="5"></button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                <button className="boardButton" id="btn6" data-num="6"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn7" data-num="7"></button>
-                </td>
-                <td>
-                <button className="boardButton" id="btn8" data-num="8"></button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+      <div id="scoreBoard">{displayScore}</div>
+      <button
+        className="playerSelect"
+        id="player2"
+        onClick={() => props.onPlayerClick(1)}
+      >
+        O - {players[1]}
+      </button>
 
-        <button id="newGame" onClick={props.onNewGameClick}>New Game</button>
-        </div>
-    );
+      <table>
+        <tbody onClick={props.onBoardButtonClick}>
+          <tr>
+            <td>
+              <button className="boardButton" id="0" data-num="0">
+                {board[0].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="1" data-num="1">
+                {board[1].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="2" data-num="2">
+                {board[2].value}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button className="boardButton" id="3" data-num="3">
+                {board[3].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="4" data-num="4">
+                {board[4].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="5" data-num="5">
+                {board[5].value}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button className="boardButton" id="6" data-num="6">
+                {board[6].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="7" data-num="7">
+                {board[7].value}
+              </button>
+            </td>
+            <td>
+              <button className="boardButton" id="8" data-num="8">
+                {board[8].value}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button id="newGame" onClick={props.onNewGameClick}>
+        New Game
+      </button>
+    </div>
+  );
 };
 
 export default Board;
