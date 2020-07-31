@@ -1,20 +1,39 @@
 import React from "react";
 import "./Board.scss";
+import { getCurrentTurn } from "../core/utils";
 
 const Board = (props: any) => {
-  const { players, score } = props;
+  const {
+    players,
+    score,
+    board,
+    newGameLabel,
+    gameState,
+    winAnimation
+  } = props;
   const displayScore = score.join(" : ");
 
- 
-  const board = props.game.board;
-   console.log(props.game);
+  const turn = getCurrentTurn(board);
+
+  console.log(board);
+
+  const isDisabled = (index: number): boolean => {
+    return board[index] !== undefined || gameState === "complete";
+  };
+
+  const showWinAnimation = (index: number): string => {
+    if (winAnimation && winAnimation.includes(index)) {
+      return 'winAnimation';
+    } 
+    return '';
+  };
 
   return (
     <div id="main">
       <h1>ARTIFICAL INTELLIGENCE</h1>
 
       <button
-        className="playerSelect"
+        className={`playerSelect ${turn % 2 !== 0 ? "underline" : ""}`}
         id="player1"
         onClick={() => props.onPlayerClick(0)}
       >
@@ -23,7 +42,7 @@ const Board = (props: any) => {
 
       <div id="scoreBoard">{displayScore}</div>
       <button
-        className="playerSelect"
+        className={`playerSelect ${turn % 2 === 0 ? "underline" : ""}`}
         id="player2"
         onClick={() => props.onPlayerClick(1)}
       >
@@ -34,52 +53,52 @@ const Board = (props: any) => {
         <tbody onClick={props.onBoardButtonClick}>
           <tr>
             <td>
-              <button className="boardButton" id="0" data-num="0">
-                {board[0].value}
+              <button className={showWinAnimation(0)} id="0" disabled={isDisabled(0)}>
+                {board[0]}
               </button>
             </td>
             <td>
-              <button className="boardButton" id="1" data-num="1">
-                {board[1].value}
+              <button className={showWinAnimation(1)} id="1" disabled={isDisabled(1)}>
+                {board[1]}
               </button>
             </td>
             <td>
-              <button className="boardButton" id="2" data-num="2">
-                {board[2].value}
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button className="boardButton" id="3" data-num="3">
-                {board[3].value}
-              </button>
-            </td>
-            <td>
-              <button className="boardButton" id="4" data-num="4">
-                {board[4].value}
-              </button>
-            </td>
-            <td>
-              <button className="boardButton" id="5" data-num="5">
-                {board[5].value}
+              <button className={showWinAnimation(2)} id="2" disabled={isDisabled(2)}>
+                {board[2]}
               </button>
             </td>
           </tr>
           <tr>
             <td>
-              <button className="boardButton" id="6" data-num="6">
-                {board[6].value}
+              <button className={showWinAnimation(3)} id="3" disabled={isDisabled(3)}>
+                {board[3]}
               </button>
             </td>
             <td>
-              <button className="boardButton" id="7" data-num="7">
-                {board[7].value}
+              <button className={showWinAnimation(4)} id="4" disabled={isDisabled(4)}>
+                {board[4]}
               </button>
             </td>
             <td>
-              <button className="boardButton" id="8" data-num="8">
-                {board[8].value}
+              <button className={showWinAnimation(5)} id="5" disabled={isDisabled(5)}>
+                {board[5]}
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button className={showWinAnimation(6)} id="6" disabled={isDisabled(6)}>
+                {board[6]}
+              </button>
+            </td>
+            <td>
+              <button className={showWinAnimation(7)} id="7" disabled={isDisabled(7)}>
+                {board[7]}
+              </button>
+            </td>
+            <td>
+              <button className={showWinAnimation(8)} id="8" disabled={isDisabled(8)}>
+                {board[8]}
               </button>
             </td>
           </tr>
@@ -87,7 +106,7 @@ const Board = (props: any) => {
       </table>
 
       <button id="newGame" onClick={props.onNewGameClick}>
-        New Game
+        {newGameLabel}
       </button>
     </div>
   );

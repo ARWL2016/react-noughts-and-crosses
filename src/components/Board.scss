@@ -73,19 +73,21 @@ table {
   top: 70px;
 }
 
-.boardButton {
+table button {
   background-color: $board-color;
   height: 87px;
   width: 87px;
   font-size: 50px;
   font-weight: bold;
   transition: all 0.6s;
+
   &:disabled {
-    color: #fff;
+    color: #fff; 
   }
+
 }
 
-button:hover {
+button:hover:not([disabled]) {
   background-color: lighten($board-color, 20%);
 }
 

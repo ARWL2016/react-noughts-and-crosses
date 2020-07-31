@@ -1,18 +1,77 @@
-import React, { useState } from "react";
-import "./App.css";
+import React, { useState, useEffect, useCallback } from "react";
+import "./App.scss";
 import Board from "./components/Board";
-import { Game } from "./core/game";
 
-type Player = "Human" | "Skynet";
-type Players = [Player, Player];
-type Score = [number, number];
-type RestartLabel = "New game" | "Play again?";
+import { Players, Score, RestartLabel, BoardValue, Symbol, GameState, Winner } from "./core/types";
+import { getCurrentTurn, turnIsX } from "./core/utils";
+import { Move } from "./core/move";
 
 function App() {
   const [players, setPlayers] = useState<Players>(["Human", "Skynet"]);
   const [score, setScore] = useState<Score>([0, 0]);
   const [newGameLabel, setNewGameLabel] = useState<RestartLabel>("New game");
-  const [game, setGame] = useState<Game>(new Game());
+
+  const [board, setBoard] = useState<BoardValue[]>(new Array(9));
+  const [gameState, setGameState] = useState<GameState>("in progress");
+  const [winAnimation, setWinAnimation] = useState<number[] | undefined>();
+  const [winner, setWinner] = useState<Winner | undefined>();
+
+  const handleMove = useCallback(
+    (target) => {
+      if (target.id) {
+        const currentTurn = getCurrentTurn(board);
+        const currentSymbol: BoardValue = turnIsX(currentTurn) ? "X" : "O";
+        const currentBoard = [...board];
+        currentBoard[target.id] = currentSymbol;
+
+        setBoard(currentBoard);
+      }
+    },
+    [board]
+  );
+
+  useEffect(() => {
+    const currentTurn = getCurrentTurn(board);
+    const currentSymbol: Symbol = turnIsX(currentTurn) ? "X" : "O";
+    const move = new Move(board, currentTurn, currentSymbol);
+    const winner = move.evaluateWin();
+
+    if (winner || currentTurn > 9) {
+      setWinner(winner as Winner);
+    } else if (
+      (players[0] === "Skynet" && currentSymbol === "X") ||
+      (players[1] === "Skynet" && currentSymbol === "O")
+    ) {
+      const delay = Math.random() * 1000;
+      setTimeout(() => {
+        const location = move.computerAI();
+  
+        if (location !== undefined) {
+          handleMove({ id: location.toString() });
+        }
+      }, delay);
+      
+    }
+  }, [board, players, handleMove]);
+
+  useEffect(() => {
+    if (winner && gameState !== 'complete') {
+      setNewGameLabel('Play again?');
+      setGameState('complete');
+
+      if (winner) {
+        const newScore = [...score];
+        if (winner.winner === 'X') {
+          newScore[0]++;
+        } else {
+          newScore[1]++;
+        }
+        setScore(newScore as Score);
+        setWinAnimation(winner.row);
+      }
+    }
+
+  }, [winner, score, gameState])
 
   const handlePlayerClick = (idx: number) => {
     const playerToSet = players[idx];
@@ -20,42 +79,15 @@ function App() {
     const newPlayers = [...players] as Players;
     newPlayers[idx] = playerToSet === "Human" ? "Skynet" : "Human";
     setPlayers(newPlayers);
-  };
-
-  const handleBoardButtonClick = (target: any) => {
-    // ev.persist();
-    console.log(target.id);
-    if (target.id) {
-      const clone = new Game(game);
-      clone.move(target.id);
-
-      if (
-        (players[0] === "Skynet" && clone.turnIsOdd) ||
-        (players[1] === "Skynet" && clone.turnIsEven)
-      ) {
-        clone.computerAI();
-      }
-
-      console.log(clone);
-      console.log(game);
-
-      setGame(clone);
-    }
-  };
-
-  const resetScore = () => {
     setScore([0, 0]);
   };
 
   const handleNewGameClick = () => {
-    setGame(new Game());
-
-    resetScore();
-    // remove win animation
+    setBoard(new Array(9));
+    setGameState('in progress');
+    setWinAnimation(undefined);
+    setWinner(undefined);
     setNewGameLabel("New game");
-    if (players[0] === "Human") {
-      // computerAI();
-    }
   };
 
   return (
@@ -63,8 +95,11 @@ function App() {
       <Board
         players={players}
         score={score}
-        game={game}
-        onBoardButtonClick={(ev: any) => handleBoardButtonClick(ev.target)}
+        board={board}
+        gameState={gameState}
+        newGameLabel={newGameLabel}
+        winAnimation={winAnimation}
+        onBoardButtonClick={(ev: any) => handleMove(ev.target)}
         onNewGameClick={handleNewGameClick}
         onPlayerClick={handlePlayerClick}
       />
