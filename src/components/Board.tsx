@@ -12,10 +12,7 @@ const Board = (props: any) => {
     winAnimation
   } = props;
   const displayScore = score.join(" : ");
-
   const turn = getCurrentTurn(board);
-
-  console.log(board);
 
   const isDisabled = (index: number): boolean => {
     return board[index] !== undefined || gameState === "complete";
