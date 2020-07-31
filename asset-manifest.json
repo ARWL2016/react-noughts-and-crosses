@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/react-noughts-and-crosses/static/css/main.c1e4da06.chunk.css",
+    "main.js": "/react-noughts-and-crosses/static/js/main.6c5f8935.chunk.js",
+    "main.js.map": "/react-noughts-and-crosses/static/js/main.6c5f8935.chunk.js.map",
+    "runtime-main.js": "/react-noughts-and-crosses/static/js/runtime-main.8600a3fa.js",
+    "runtime-main.js.map": "/react-noughts-and-crosses/static/js/runtime-main.8600a3fa.js.map",
+    "static/js/2.184795c4.chunk.js": "/react-noughts-and-crosses/static/js/2.184795c4.chunk.js",
+    "static/js/2.184795c4.chunk.js.map": "/react-noughts-and-crosses/static/js/2.184795c4.chunk.js.map",
+    "index.html": "/react-noughts-and-crosses/index.html",
+    "precache-manifest.94a8139b53af0b9d63e6312874747b0d.js": "/react-noughts-and-crosses/precache-manifest.94a8139b53af0b9d63e6312874747b0d.js",
+    "service-worker.js": "/react-noughts-and-crosses/service-worker.js",
+    "static/css/main.c1e4da06.chunk.css.map": "/react-noughts-and-crosses/static/css/main.c1e4da06.chunk.css.map",
+    "static/js/2.184795c4.chunk.js.LICENSE.txt": "/react-noughts-and-crosses/static/js/2.184795c4.chunk.js.LICENSE.txt",
+    "static/media/App.scss": "/react-noughts-and-crosses/static/media/black-bg.5eb70df4.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8600a3fa.js",
+    "static/js/2.184795c4.chunk.js",
+    "static/css/main.c1e4da06.chunk.css",
+    "static/js/main.6c5f8935.chunk.js"
+  ]
+}
