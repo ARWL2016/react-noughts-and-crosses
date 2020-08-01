@@ -1,4 +1,4 @@
-@import '../sass/variables';
+@import '../../sass/variables';
 
 #main {
   background-color: $bg-color;
@@ -91,7 +91,7 @@ button:hover:not([disabled]) {
   background-color: lighten($board-color, 20%);
 }
 
-#newGame {
+.newGame {
   font-size: 1.8em;
   background-color: inherit;
   position: absolute;
@@ -102,6 +102,7 @@ button:hover:not([disabled]) {
   width: 100%;
   height: auto;
   padding: 10px;
+
   &:hover {
     background-color: lighten($bg-color, 15%);
   }

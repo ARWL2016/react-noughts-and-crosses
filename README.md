@@ -7,13 +7,10 @@ Noughts and Crosses app with AI, choice of human or computer opponents and score
 - TypeScript
 - Sass
 
-
 #### Todo 
-- move button to own component
 - show result message 
 - prevent double click bug
-- fix AI on 0,4,7
-- type props on Board
+- show thinking 'loader'
 
 #### Enhancements
 - computer AI level picker

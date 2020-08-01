@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.scss";
-import Board from "./components/Board";
 
 import { Players, Score, RestartLabel, BoardValue, Symbol, GameState, Winner } from "./core/types";
 import { getCurrentTurn, turnIsX } from "./core/utils";
 import { Move } from "./core/move";
+import Board from "./components/Board/Board";
 
 function App() {
   const [players, setPlayers] = useState<Players>(["Human", "Skynet"]);
@@ -71,7 +71,11 @@ function App() {
       }
     }
 
-  }, [winner, score, gameState])
+  }, [winner, score, gameState]);
+
+  const onSquareClick = (ev: any, index: string) => {
+    handleMove({id: index})
+  }
 
   const handlePlayerClick = (idx: number) => {
     const playerToSet = players[idx];
@@ -90,6 +94,8 @@ function App() {
     setNewGameLabel("New game");
   };
 
+  
+
   return (
     <div className="container">
       <Board
@@ -99,9 +105,9 @@ function App() {
         gameState={gameState}
         newGameLabel={newGameLabel}
         winAnimation={winAnimation}
-        onBoardButtonClick={(ev: any) => handleMove(ev.target)}
         onNewGameClick={handleNewGameClick}
         onPlayerClick={handlePlayerClick}
+        onSquareClick={onSquareClick}
       />
     </div>
   );

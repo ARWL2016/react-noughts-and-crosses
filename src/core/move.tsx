@@ -95,10 +95,11 @@ export class Move {
   }
 
   public computerAI = (): number => {
-    const fns = [
+    const fns = [  
       this.canIWinThisTurn.bind(this),
       this.canYouWinNextTurn.bind(this),
-      this.applyHardCodedMoves.bind(this),
+      this.preventTrap.bind(this),
+      // this.applyHardCodedMoves.bind(this),
       this.applyDefaultStrategy.bind(this),
     ];
 
@@ -152,6 +153,32 @@ export class Move {
     return false;
   }
 
+  private preventTrap(): number | false {
+    const singles: Row[] = this.winArray.filter((row: Row) => {
+      return this.evalArray(row) === this.symbolValues[this.otherSymbol];
+    });
+
+    let dangerSquares: number[] = [];
+
+    singles.forEach(row => {
+      row.forEach(square => {
+        if (square.value === undefined) {
+          dangerSquares.push(square.location);
+          dangerSquares.sort();
+        }
+      })
+    });
+
+
+    for (let i = 0; i < dangerSquares.length - 1; i++) {
+      if (dangerSquares[i] === dangerSquares[i + 1]) {
+        return dangerSquares[i];
+      }
+    }
+    
+    return false;
+  }
+
   private findEmptyLocation(arr: Row): number {
     const square = arr.find((x) => x.value === undefined);
     return square!.location;
@@ -181,95 +208,94 @@ export class Move {
     });
 
     return areEqual;
-    // return JSON.stringify(arr1) === JSON.stringify(arr2);
   }
 
-  private applyHardCodedMoves(): number | false {
-    const [row1, row2, row3, col1, col2, col3, diag1, diag2] = this.winArray;
+  // private applyHardCodedMoves(): number | false {
+  //   const [row1, row2, row3, col1, col2, col3, diag1, diag2] = this.winArray;
 
-    if (
-      this.turn === 5 &&
-      this.boardMap[1].value === "O" &&
-      this.boardMap[6].value === undefined
-    ) {
-      return 6;
-    }
-    if (
-      this.turn === 4 &&
-      (this.equalArrays(
-        diag1.map((s) => s.value),
-        ["X", "O", "X"]
-      ) ||
-        this.equalArrays(
-          diag2.map((s) => s.value),
-          ["X", "O", "X"]
-        ))
-    ) {
-      return 1;
-    }
+  //   if (
+  //     this.turn === 5 &&
+  //     this.boardMap[1].value === "O" &&
+  //     this.boardMap[6].value === undefined
+  //   ) {
+  //     return 6;
+  //   }
+  //   if (
+  //     this.turn === 4 &&
+  //     (this.equalArrays(
+  //       diag1.map((s) => s.value),
+  //       ["X", "O", "X"]
+  //     ) ||
+  //       this.equalArrays(
+  //         diag2.map((s) => s.value),
+  //         ["X", "O", "X"]
+  //       ))
+  //   ) {
+  //     return 1;
+  //   }
 
-    if (
-      this.turn === 4 &&
-      this.evalArray(row1) === 6 &&
-      this.evalArray(row3) === 5
-    ) {
-      return 8;
-    }
-    if (
-      this.turn === 4 &&
-      this.evalArray(row1) === 5 &&
-      this.evalArray(row3) === 6
-    ) {
-      return 0;
-    }
-    if (
-      this.turn === 4 &&
-      this.evalArray(col1) === 6 &&
-      this.evalArray(col3) === 5
-    ) {
-      return 2;
-    }
-    if (
-      this.turn === 4 &&
-      this.evalArray(col1) === 5 &&
-      this.evalArray(col3) === 6
-    ) {
-      return 6;
-    }
+  //   if (
+  //     this.turn === 4 &&
+  //     this.evalArray(row1) === 6 &&
+  //     this.evalArray(row3) === 5
+  //   ) {
+  //     return 8;
+  //   }
+  //   if (
+  //     this.turn === 4 &&
+  //     this.evalArray(row1) === 5 &&
+  //     this.evalArray(row3) === 6
+  //   ) {
+  //     return 0;
+  //   }
+  //   if (
+  //     this.turn === 4 &&
+  //     this.evalArray(col1) === 6 &&
+  //     this.evalArray(col3) === 5
+  //   ) {
+  //     return 2;
+  //   }
+  //   if (
+  //     this.turn === 4 &&
+  //     this.evalArray(col1) === 5 &&
+  //     this.evalArray(col3) === 6
+  //   ) {
+  //     return 6;
+  //   }
 
-    const sideValues = this.sides.map((side) => side.value);
+  //   const sideValues = this.sides.map((side) => side.value);
 
-    if (
-      this.turn === 4 &&
-      (this.equalArrays(sideValues, ["O", undefined, "X", "X"]) ||
-        this.equalArrays(sideValues, ["O", "X", undefined, "X"]) ||
-        this.equalArrays(sideValues, ["X", "X", "O", undefined]) ||
-        this.equalArrays(sideValues, [undefined, "X", "O", "X"]))
-    ) {
-      return 6;
-    }
+  //   if (
+  //     this.turn === 4 &&
+  //     (this.equalArrays(sideValues, ["O", undefined, "X", "X"]) ||
+  //       this.equalArrays(sideValues, ["O", "X", undefined, "X"]) ||
+  //       this.equalArrays(sideValues, ["X", "X", "O", undefined]) ||
+  //       this.equalArrays(sideValues, [undefined, "X", "O", "X"]))
+  //   ) {
+  //     return 6;
+  //   }
 
-    if (
-      this.turn === 4 &&
-      (this.equalArrays(sideValues, ["X", "O", "X", undefined]) ||
-        this.equalArrays(sideValues, [undefined, "O", "X", "X"]) ||
-        this.equalArrays(sideValues, ["X", undefined, "X", "O"]) ||
-        this.equalArrays(sideValues, ["X", "X", undefined, "O"]))
-    ) {
-      return 2;
-    }
+  //   if (
+  //     this.turn === 4 &&
+  //     (this.equalArrays(sideValues, ["X", "O", "X", undefined]) ||
+  //       this.equalArrays(sideValues, [undefined, "O", "X", "X"]) ||
+  //       this.equalArrays(sideValues, ["X", undefined, "X", "O"]) ||
+  //       this.equalArrays(sideValues, ["X", "X", undefined, "O"]))
+  //   ) {
+  //     return 2;
+  //   }
 
-    if (this.turn === 2) {
-      for (let i in this.sides) {
-        if (this.sides[i].value === "X") {
-          // pick opposite side
-          return 8 - this.sides[i].location;
-        }
-      }
-    }
+  //   if (this.turn === 2) {
+  //     for (let i in this.sides) {
+  //       if (this.sides[i].value === "X") {
+  //         // pick opposite side
+  //         return 8 - this.sides[i].location;
+  //       }
+  //     }
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   private applyDefaultStrategy(): number | false {
     const strategy = [4, 0, 2, 6, 8, 1, 3, 5, 7]; // default order of play
